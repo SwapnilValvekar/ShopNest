@@ -1,7 +1,4 @@
-<script>
-    var userIsAuthenticated = {{ user.is_authenticated|lower }};
-</script>
-<script src="{% static 'cart.js' %}"></script>
+
 
 var updateBtns = document.getElementsByClassName("update-cart");
 
@@ -26,14 +23,16 @@ function updateUserOrder(productId, action) {
     fetch(url, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRFToken':csrftoken,
         },
         body: JSON.stringify({ 'productId': productId, 'action': action })
     })
     .then((response) => {
-        return response.json();
+        return response.json()
     })
     .then((data) => {
         console.log('data:', data);
-    });
+        location.reload()
+    })
 }
